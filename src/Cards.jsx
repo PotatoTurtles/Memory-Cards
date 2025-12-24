@@ -1,17 +1,21 @@
 import { useEffect, useState } from "react";
 
-export default function Cards({val,setVal}){
-
-    function clicked(component){
-        
-    }
-    
-    // function randomize(){
-    //     setIndex([])
-    // }
+export default function Cards({score,bestscore,setScore,setBestscore}){
 
     const poke = ['mudkip','pidgeot','abra','greninja','altaria','gible','scraggy','jangmo-o'];
     const [sprites, setSprites] = useState([]);
+    const [isClicked, setIsClicked] = useState(poke.map(()=>false))
+    const [place,setPlace] = useState(poke.map((a,b)=>b+1))
+
+    function randomify(){
+        let base=[...place];
+        let shuffled =[]
+        for(let i = 1; i<=place.length;i++){
+            let rand = Math.floor(Math.random()*base.length);
+            shuffled.push(base.splice(rand,1)[0]);
+        }
+        return shuffled;
+    }
 
     useEffect(() => {
         async function loadSprites() {
@@ -26,11 +30,34 @@ export default function Cards({val,setVal}){
         }
         loadSprites();
     }, []);
+    useEffect(()=>{
+        if(score>bestscore){
+            setBestscore(score);
+        }
+    },[score])
     return(
         <>
             {sprites.map((url,index)=>{
+                function clicked(){
+                    if(!isClicked[index]){
+                        setScore(score+1);
+                        setIsClicked(prev=>{const next = prev;next[index]=true;return next});
+                    }
+                    else{
+                        if((score%poke.length)===0){
+                            setIsClicked(poke.map(()=>false));
+                            setScore(score+1);
+                            setIsClicked(prev=>{const next = prev;next[index]=true;return next});
+                        }
+                        else{
+                            setScore(0);
+                            setIsClicked(poke.map(()=>false));
+                        }
+                    }
+                    
+                }
                 return(
-                    <img src={url} alt={'Image of' + poke[index]} key={index} />
+                    <img src={url} alt={'Image of' + poke[index]} key={index} onClick={clicked}/>
                 )
             })}
         </>

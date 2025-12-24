@@ -3,7 +3,8 @@ import './App.css'
 import Cards from './Cards';
 
 function App() {
-  const [index, setIndex] = useState([]);
+  const [score, setScore] = useState(0);
+  const [bestscore, setBestscore] = useState(0);
 
   return (
     <>
@@ -13,12 +14,12 @@ function App() {
           <p>Get points by clicking on an image but don't click on any more than once!</p>
         </div>
         <div className="score">
-          <p>Score: {0}</p>
-          <p>Best Score</p>
+          <p>Score: {score}</p>
+          <p>Best Score: {bestscore}</p>
         </div>
       </header>
       <main>
-        <Cards val={index} setVal={setIndex} />
+        <Cards  score={score} bestscore={bestscore} setScore={setScore} setBestscore={setBestscore}/>
       </main>
     </>
   )
