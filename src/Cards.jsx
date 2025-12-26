@@ -34,6 +34,7 @@ export default function Cards({score,bestscore,setScore,setBestscore}){
         if(score>bestscore){
             setBestscore(score);
         }
+        setPlace(randomify());
     },[score])
     return(
         <>
@@ -41,13 +42,13 @@ export default function Cards({score,bestscore,setScore,setBestscore}){
                 function clicked(){
                     if(!isClicked[index]){
                         setScore(score+1);
-                        setIsClicked(prev=>{const next = prev;next[index]=true;return next});
+                        setIsClicked(prev=>{const next = [...prev];next[index]=true;return next});
                     }
                     else{
                         if((score%poke.length)===0){
                             setIsClicked(poke.map(()=>false));
                             setScore(score+1);
-                            setIsClicked(prev=>{const next = prev;next[index]=true;return next});
+                            setIsClicked(prev=>{const next = [...prev];next[index]=true;return next});
                         }
                         else{
                             setScore(0);
@@ -57,7 +58,8 @@ export default function Cards({score,bestscore,setScore,setBestscore}){
                     
                 }
                 return(
-                    <img src={url} alt={'Image of' + poke[index]} key={index} onClick={clicked}/>
+                    <button key={poke[index]} onClick={clicked} style={{gridArea:`${Math.floor((place[index]-1)/4+1)} / ${Math.floor((place[index]-1)%4+1)}`}}><img src={url} alt={'Image of' + poke[index]}/></button>
+                    
                 )
             })}
         </>

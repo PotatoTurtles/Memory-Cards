@@ -7,7 +7,7 @@ function App() {
   const [bestscore, setBestscore] = useState(0);
 
   return (
-    <>
+    <div className='body'>
       <header>
         <div className="title">
           <h1>Memory Game</h1>
@@ -21,7 +21,8 @@ function App() {
       <main>
         <Cards  score={score} bestscore={bestscore} setScore={setScore} setBestscore={setBestscore}/>
       </main>
-    </>
+    </div>
+    
   )
 }
 
